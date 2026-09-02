@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Graphs & Interactions | Explainer Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- D3.js for interactive network visualizations -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body class="theme-light">
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="brand">
+        <span class="brand-icon">🕸️</span>
+        <span class="brand-text">Social<strong>Graphs</strong></span>
+      </a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#motivation" class="nav-link">Motivation</a>
+        <a href="#dataset" class="nav-link">Dataset</a>
+        <a href="#network" class="nav-link">Network Analysis</a>
+        <a href="#text-analysis" class="nav-link">Text Analysis</a>
+        <a href="#findings" class="nav-link">Findings</a>
+        <a href="#resources" class="nav-link">Resources</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme" title="Toggle dark/light mode">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-secondary btn-sm">
+          <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <button id="mobile-menu-btn" class="btn-icon mobile-only" aria-label="Open menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <div class="container hero-content">
+      <div class="badge">DTU 02805 • Social Data Analysis and Visualization</div>
+      <h1 class="hero-title">Decoding Complex Interactions in Social Networks</h1>
+      <p class="hero-subtitle">
+        An interactive data story exploring topological structures, community formations, and text dynamics across modern interconnected systems.
+      </p>
+      
+      <div class="hero-meta">
+        <div class="authors">
+          <span>By <strong>Team 02805</strong></span>
+          <span class="dot-separator">•</span>
+          <span>Fall / Spring Project</span>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#network" class="btn btn-primary">Explore Network</a>
+        <a href="#dataset" class="btn btn-secondary">View Dataset</a>
+        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-outline">Notebook & Code</a>
+      </div>
+
+      <!-- Quick Metrics Counter -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="metric-nodes">1,248</div>
+          <div class="stat-label">Network Nodes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="metric-edges">4,520</div>
+          <div class="stat-label">Interactions / Edges</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="metric-communities">7</div>
+          <div class="stat-label">Detected Communities</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="metric-density">0.0058</div>
+          <div class="stat-label">Network Density</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main class="container page-content">
+    
+    <!-- Motivation & Overview -->
+    <section id="motivation" class="content-section">
+      <div class="section-header">
+        <span class="section-tag">01 / Motivation</span>
+        <h2>Why Study This Network?</h2>
+      </div>
+      <div class="grid-2col">
+        <div class="text-block">
+          <p class="lead">
+            Human collaboration and digital communication patterns yield intricate networks that govern information diffusion, ideological clustering, and social dynamics.
+          </p>
+          <p>
+            In this project, we investigate the underlying mechanisms that drive community structure and content dissemination. By combining network science principles with natural language processing, we uncover hidden relationships and quantify the degree of polarization and cohesion across communities.
+          </p>
+          <div class="highlight-card">
+            <h4>🎯 Key Research Questions</h4>
+            <ul>
+              <li><strong>Structural Topologies:</strong> What are the central hubs and bridging nodes connecting diverse sub-communities?</li>
+              <li><strong>Community Modularity:</strong> How well-defined are the community boundaries under the Louvain algorithm?</li>
+              <li><strong>Semantic Alignment:</strong> Does community partition correlate with vocabulary and sentiment variance?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature-visual">
+          <div class="visual-card">
+            <div class="visual-header">
+              <span class="badge">Pipeline Workflow</span>
+            </div>
+            <div class="workflow-diagram">
+              <div class="workflow-step">
+                <span class="step-num">1</span>
+                <strong>Data Gathering</strong>
+                <p>API scraping & structured parsing</p>
+              </div>
+              <div class="workflow-arrow">↓</div>
+              <div class="workflow-step">
+                <span class="step-num">2</span>
+                <strong>Network Construction</strong>
+                <p>Adjacency matrix & graph modeling</p>
+              </div>
+              <div class="workflow-arrow">↓</div>
+              <div class="workflow-step">
+                <span class="step-num">3</span>
+                <strong>Community & Text Analysis</strong>
+                <p>Louvain partition, TF-IDF, Sentiment</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dataset & Preprocessing -->
+    <section id="dataset" class="content-section">
+      <div class="section-header">
+        <span class="section-tag">02 / Data</span>
+        <h2>Dataset Collection & Preparation</h2>
+      </div>
+      <div class="grid-2col">
+        <div class="text-block">
+          <p>
+            Our dataset was collected through programmatic APIs and preprocessed to remove noise, filter isolated singletons, and resolve entity references.
+          </p>
+          <p>
+            Each interaction corresponds to a directed or undirected edge with associated metadata, including timestamps, interaction weights, and textual contents.
+          </p>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Raw Data</th>
+                <th>Cleaned Graph</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Total Entities / Nodes</td>
+                <td>2,150</td>
+                <td>1,248 (Largest Component)</td>
+              </tr>
+              <tr>
+                <td>Total Relationships</td>
+                <td>6,800</td>
+                <td>4,520 (Filtered)</td>
+              </tr>
+              <tr>
+                <td>Avg. Degree &lang;k&rang;</td>
+                <td>3.16</td>
+                <td>7.24</td>
+              </tr>
+              <tr>
+                <td>Clustering Coefficient</td>
+                <td>0.142</td>
+                <td>0.384</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="feature-visual">
+          <div class="visual-card">
+            <h3>Degree Distribution</h3>
+            <p class="small text-muted">Log-log degree distribution indicating heavy-tailed / scale-free characteristics.</p>
+            <div class="chart-placeholder" id="degree-chart-container">
+              <div class="bar-chart-mockup">
+                <div class="bar" style="height: 95%;" title="k=1-5"><span>k: 1-5</span></div>
+                <div class="bar" style="height: 60%;" title="k=6-10"><span>k: 6-10</span></div>
+                <div class="bar" style="height: 35%;" title="k=11-20"><span>k: 11-20</span></div>
+                <div class="bar" style="height: 18%;" title="k=21-50"><span>k: 21-50</span></div>
+                <div class="bar" style="height: 8%;" title="k=50+"><span>k: 50+</span></div>
+              </div>
+            </div>
+            <p class="chart-caption">Figure 1: Node degree frequency distribution exhibiting power-law decay.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Network Analysis & Interactive Graph -->
+    <section id="network" class="content-section">
+      <div class="section-header">
+        <span class="section-tag">03 / Network Exploration</span>
+        <h2>Interactive Network Visualization</h2>
+        <p class="section-description">
+          Interact with the live force-directed network simulation below. Drag nodes, zoom in/out, or click any node to inspect its local properties and community membership.
+        </p>
+      </div>
+
+      <!-- Graph Container & Controls -->
+      <div class="network-interactive-wrapper">
+        <div class="network-toolbar">
+          <div class="toolbar-group">
+            <label for="community-filter">Filter Community:</label>
+            <select id="community-filter" class="form-select">
+              <option value="all">All Communities (5 Visible)</option>
+              <option value="0">Community 0 (Indigo - Core Systems)</option>
+              <option value="1">Community 1 (Emerald - AI & Algorithms)</option>
+              <option value="2">Community 2 (Amber - Policy & Law)</option>
+              <option value="3">Community 3 (Purple - Industry & Tech)</option>
+              <option value="4">Community 4 (Pink - Social & Media)</option>
+            </select>
+          </div>
+          <div class="toolbar-group">
+            <label for="search-node">Search Node:</label>
+            <input type="text" id="search-node" class="form-input" placeholder="e.g. Node 14..." />
+          </div>
+          <div class="toolbar-group buttons">
+            <button id="btn-reset-zoom" class="btn btn-secondary btn-sm">Reset View</button>
+            <button id="btn-toggle-physics" class="btn btn-secondary btn-sm">Pause Simulation</button>
+          </div>
+        </div>
+
+        <div class="network-canvas-container">
+          <div id="network-graph" class="network-graph-svg"></div>
+          
+          <!-- Node Inspector Drawer -->
+          <div id="node-inspector" class="node-inspector hidden">
+            <div class="inspector-header">
+              <h4 id="inspector-name">Node Details</h4>
+              <button id="inspector-close" class="btn-close">&times;</button>
+            </div>
+            <div class="inspector-body">
+              <p><strong>Community:</strong> <span id="inspector-community">-</span></p>
+              <p><strong>Degree Centrality:</strong> <span id="inspector-degree">-</span></p>
+              <p><strong>Betweenness Centrality:</strong> <span id="inspector-betweenness">-</span></p>
+              <p><strong>Connections:</strong> <span id="inspector-neighbors">-</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="network-legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#4F46E5;"></span> Community 0 (Core)</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#10B981;"></span> Community 1 (AI & Algo)</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#F59E0B;"></span> Community 2 (Policy)</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#8B5CF6;"></span> Community 3 (Industry)</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#EC4899;"></span> Community 4 (Media)</span>
+        </div>
+      </div>
+
+      <!-- Network Metrics Cards -->
+      <div class="metrics-breakdown grid-3col">
+        <div class="metric-box">
+          <h4>Louvain Modularity</h4>
+          <div class="big-num">0.642</div>
+          <p>Strong community clustering showing modular structure with dense intra-group connections.</p>
+        </div>
+        <div class="metric-box">
+          <h4>Avg. Path Length</h4>
+          <div class="big-num">3.82</div>
+          <p>Small-world phenomenon: any two nodes are separated by fewer than 4 degrees of separation.</p>
+        </div>
+        <div class="metric-box">
+          <h4>Assortativity</h4>
+          <div class="big-num">-0.118</div>
+          <p>Slight disassortative mixing where high-degree hubs frequently link with low-degree peripheral nodes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Text & NLP Analysis -->
+    <section id="text-analysis" class="content-section">
+      <div class="section-header">
+        <span class="section-tag">04 / NLP & Semantics</span>
+        <h2>Text & Sentiment Analysis</h2>
+        <p class="section-description">
+          Examining how distinct communities communicate, what distinctive terms define them (TF-IDF), and emotional sentiment valence.
+        </p>
+      </div>
+
+      <div class="grid-2col">
+        <div class="card">
+          <h3>Top TF-IDF Keywords by Community</h3>
+          <p class="small text-muted">Words with highest specificity compared to the overall network corpus.</p>
+          <div class="tfidf-tags">
+            <div class="community-tag-group">
+              <span class="tag-title" style="color: #4F46E5;">Community 0 (Core Systems)</span>
+              <div class="tags">
+                <span class="tag">algorithms</span>
+                <span class="tag">distributed</span>
+                <span class="tag">consensus</span>
+                <span class="tag">scalability</span>
+                <span class="tag">throughput</span>
+              </div>
+            </div>
+            <div class="community-tag-group">
+              <span class="tag-title" style="color: #10B981;">Community 1 (AI & Algo)</span>
+              <div class="tags">
+                <span class="tag">neural</span>
+                <span class="tag">evaluation</span>
+                <span class="tag">dataset</span>
+                <span class="tag">accuracy</span>
+                <span class="tag">transformer</span>
+              </div>
+            </div>
+            <div class="community-tag-group">
+              <span class="tag-title" style="color: #F59E0B;">Community 2 (Policy & Law)</span>
+              <div class="tags">
+                <span class="tag">governance</span>
+                <span class="tag">regulation</span>
+                <span class="tag">privacy</span>
+                <span class="tag">compliance</span>
+                <span class="tag">ethics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Sentiment Distribution</h3>
+          <p class="small text-muted">VADER / LabMT sentiment score across communities.</p>
+          <div class="sentiment-bars">
+            <div class="sentiment-row">
+              <span>Community 0</span>
+              <div class="sentiment-track">
+                <div class="sentiment-fill positive" style="width: 68%;">+0.32</div>
+              </div>
+            </div>
+            <div class="sentiment-row">
+              <span>Community 1</span>
+              <div class="sentiment-track">
+                <div class="sentiment-fill neutral" style="width: 55%;">+0.14</div>
+              </div>
+            </div>
+            <div class="sentiment-row">
+              <span>Community 2</span>
+              <div class="sentiment-track">
+                <div class="sentiment-fill cautious" style="width: 42%;">-0.05</div>
+              </div>
+            </div>
+            <div class="sentiment-row">
+              <span>Community 3</span>
+              <div class="sentiment-track">
+                <div class="sentiment-fill positive" style="width: 72%;">+0.41</div>
+              </div>
+            </div>
+          </div>
+          <p class="chart-caption">Policy communities exhibit more critical/cautious discourse, while technical communities lean positive.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Findings & Conclusion -->
+    <section id="findings" class="content-section">
+      <div class="section-header">
+        <span class="section-tag">05 / Insights</span>
+        <h2>Key Findings & Discussion</h2>
+      </div>
+
+      <div class="findings-grid">
+        <div class="finding-card">
+          <div class="finding-icon">🔍</div>
+          <h3>Hub Resilience</h3>
+          <p>
+            Removal of the top 5% highest betweenness centrality nodes results in network fragmentation into 14 disconnected subgraphs, demonstrating vulnerability to targeted hub disruptions.
+          </p>
+        </div>
+
+        <div class="finding-card">
+          <div class="finding-icon">🧩</div>
+          <h3>Homophily & Echo Chambers</h3>
+          <p>
+            Nodes exhibit strong topic homophily: over 78% of interactions occur within the same detected community, with distinct vocabularies separating theoretical from applied clusters.
+          </p>
+        </div>
+
+        <div class="finding-card">
+          <div class="finding-icon">🌉</div>
+          <h3>Boundary Spanners</h3>
+          <p>
+            A small subset of inter-community boundary spanners bridge technical developers with regulatory stakeholders, playing a pivotal role in cross-discipline information transfer.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources, Download & Team -->
+    <section id="resources" class="content-section">
+      <div class="section-header">
+        <span class="section-tag">06 / Resources</span>
+        <h2>Project Materials & Notebooks</h2>
+      </div>
+
+      <div class="download-banner">
+        <div class="banner-content">
+          <h3>Reproduce Our Results</h3>
+          <p>Access the full data pipeline, Jupyter explainer notebook, and raw graph edge lists on GitHub.</p>
+          <div class="cta-group">
+            <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-primary">
+              View Explainer Notebook
+            </a>
+            <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-secondary">
+              Download Raw Data
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Members Info -->
+      <div class="team-section">
+        <h3>Project Team</h3>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="avatar">👨‍💻</div>
+            <h4>Team Member 1</h4>
+            <p class="role">Student ID: sXXXXXX</p>
+            <p class="contrib">Network Construction & Community Detection</p>
+          </div>
+          <div class="team-card">
+            <div class="avatar">👩‍💻</div>
+            <h4>Team Member 2</h4>
+            <p class="role">Student ID: sXXXXXX</p>
+            <p class="contrib">Text Mining & NLP Analysis</p>
+          </div>
+          <div class="team-card">
+            <div class="avatar">👨‍🔬</div>
+            <h4>Team Member 3</h4>
+            <p class="role">Student ID: sXXXXXX</p>
+            <p class="contrib">Data Visualization & Web Presentation</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 DTU 02805 Social Data Analysis and Visualization. Built for GitHub Pages.</p>
+      <p class="small text-muted">Hosted on GitHub Pages • Source available under MIT License</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
