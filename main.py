@@ -1,11 +1,15 @@
+from pathlib import Path
+
 import pandas as pd
 import networkx as nx
 
 def load_week1_graph():
     # Load nodes and edges as specified
-    nodes = pd.read_csv("data/week1_nodes.tsv", sep="\t", comment="#",
+    # docs/data holds the tracked copy of the frozen snapshot, so this runs from a clone
+    data = Path(__file__).resolve().parent / "docs" / "data"
+    nodes = pd.read_csv(data / "week1_nodes.tsv", sep="\t", comment="#",
                         quoting=3)  # QUOTE_NONE: TSVs never quote, but blurbs may contain "quotes"
-    edges = pd.read_csv("data/week1_edges.tsv", sep="\t", comment="#",
+    edges = pd.read_csv(data / "week1_edges.tsv", sep="\t", comment="#",
                         names=["source", "target"])
 
     G = nx.DiGraph()

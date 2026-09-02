@@ -1,0 +1,10 @@
+[project]
+name = "socialgraphs-02805"
+version = "0.1.0"
+description = "DTU 02805 Social Graphs and Interactions — group project"
+requires-python = ">=3.12"
+dependencies = [
+    "networkx>=3.4",
+    "pandas>=2.2",
+    "scipy>=1.14",           # networkx.pagerank needs it
+]

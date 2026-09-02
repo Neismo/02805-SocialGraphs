@@ -8,7 +8,6 @@ of the original TSVs.
 """
 
 import os
-import shutil
 import json
 import pandas as pd
 import networkx as nx
@@ -16,7 +15,8 @@ import networkx.algorithms.community as nx_comm
 
 def main():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    data_dir = os.path.join(base_dir, "data")
+    # the tracked snapshot lives in docs/data, so this script runs from a fresh clone
+    data_dir = os.path.join(base_dir, "docs", "data")
     docs_data_dir = os.path.join(base_dir, "docs", "data")
     os.makedirs(docs_data_dir, exist_ok=True)
 
@@ -35,9 +35,6 @@ def main():
 
     print(f"Constructed DiGraph G: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 
-    # Copy raw TSVs to docs/data
-    shutil.copy(nodes_file, os.path.join(docs_data_dir, "week1_nodes.tsv"))
-    shutil.copy(edges_file, os.path.join(docs_data_dir, "week1_edges.tsv"))
 
     # Compute network metrics
     in_deg_dict = dict(G.in_degree())
@@ -49,16 +46,21 @@ def main():
     G_undir = G.to_undirected()
     comms = sorted(nx_comm.louvain_communities(G_undir, seed=42), key=len, reverse=True)
 
-    comm_names_map = {
-        0: "Street Level & Urban Knights",
-        1: "X-Men & Mutant Factions",
-        2: "Cosmic Marvel & Guardians",
-        3: "Spider-Verse & Web Warriors",
-        4: "Gamma & Heavyweight Avengers",
-        5: "Midnight Sons & Supernatural",
-        6: "Classic Avengers & Golden Age",
-        7: "Strikeforce: Morituri",
-    }
+    # These names are OUR reading of what each cluster contains, not an output of Louvain
+    # (the algorithm returns unlabelled sets of nodes). Keying them by community index was
+    # a trap: the index depends on the ordering networkx happens to return, so a version
+    # bump silently moves every label onto the wrong cluster. Anchor each label to a
+    # character instead, and label a cluster only if its anchor is actually inside it.
+    comm_anchors = [
+        ("Luke_Cage",              "Street Level & Urban Knights"),
+        ("Wolverine_(character)",  "X-Men & Mutant Factions"),
+        ("Star-Lord",              "Cosmic Marvel & Guardians"),
+        ("Spider-Man",             "Spider-Verse & Web Warriors"),
+        ("Hulk",                   "Gamma & Heavyweight Avengers"),
+        ("Doctor_Strange",         "Doctor Strange & the Supernatural"),
+        ("Human_Torch",            "Fantastic Four, Inhumans & Golden Age"),
+        ("Radian_(Morituri)",      "Strikeforce: Morituri"),
+    ]
 
     comm_colors = [
         "#3B82F6",  # Blue (Street level)
@@ -75,7 +77,10 @@ def main():
     node_comm_map = {}
     for cid, comm in enumerate(comms):
         if len(comm) > 2:
-            c_name = comm_names_map.get(cid, f"Community {cid + 1}")
+            anchored = [name for anchor, name in comm_anchors if anchor in comm]
+            # two anchors in one cluster means Louvain merged them: say so rather than
+            # picking one name and quietly dropping the other
+            c_name = " + ".join(anchored) if anchored else f"Community {cid + 1}"
             color = comm_colors[cid % len(comm_colors)]
             c_id = cid
         else:

@@ -1404,3 +1404,79 @@ body.theme-dark .node-inspector-drawer {
     max-width: calc(100% - 32px);
   }
 }
+
+/* ==========================================================================
+   Week 1 write-up: prose callouts, the degree-distribution chart, segmented
+   toggles. Colours come from the theme variables, so both modes are covered.
+   ========================================================================== */
+
+.callout-post,
+.callout-note {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-xs);
+  margin-top: 18px;
+}
+
+.callout-post p + p { margin-top: 14px; }
+
+/* a quieter variant for the one-paragraph takeaways under a figure or table */
+.callout-note {
+  border-left: 3px solid var(--accent-primary);
+  font-size: 0.94rem;
+}
+
+.chart-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.chart-body { padding: 16px 20px 18px; }
+
+.chart-body svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.chart-legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.chart-note {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 10px 0 0;
+  line-height: 1.6;
+}
+
+/* segmented control: buttons butted together inside one rounded outline */
+.seg-group { display: inline-flex; }
+
+.seg-group .btn-tool {
+  border-radius: 0;
+  border-right-width: 0;
+}
+
+.seg-group .btn-tool:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+.seg-group .btn-tool:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-right-width: 1px;
+}
+
+/* the island lists use neighbour chips as real links */
+a.neighbor-chip { text-decoration: none; }

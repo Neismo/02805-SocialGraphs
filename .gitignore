@@ -1,4 +1,6 @@
-data/
+# a local scratch copy of the course TSVs; the tracked ones live in docs/data/
+/data/
 .python-version
-pyproject.toml
 uv.lock
+__pycache__/
+.venv/

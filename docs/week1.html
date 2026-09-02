@@ -24,10 +24,12 @@
       <nav class="nav-links" id="nav-links">
         <a href="index.html" class="nav-link">Home</a>
         <a href="week1.html" class="nav-link active">Week 1</a>
-        <a href="#data-loading" class="nav-link">Data Loading</a>
+        <a href="#the-question" class="nav-link">The Question</a>
+        <a href="#degree-distributions" class="nav-link">Degree Distributions</a>
+        <a href="#in-vs-out" class="nav-link">In vs Out</a>
+        <a href="#islands" class="nav-link">The Islands</a>
         <a href="#network-visualization" class="nav-link">Interactive Graph</a>
-        <a href="#top-superheroes" class="nav-link">Top Characters</a>
-        <a href="#downloads" class="nav-link">Downloads</a>
+        <a href="#snapshot-check" class="nav-link">Snapshot Check</a>
       </nav>
 
       <div class="nav-actions">
@@ -60,7 +62,7 @@
 
       <div class="hero-actions">
         <a href="#network-visualization" class="btn btn-primary">🕸️ Explore Interactive Graph</a>
-        <a href="#data-loading" class="btn btn-secondary">🐍 Python & NetworkX Code</a>
+        <a href="#degree-distributions" class="btn btn-secondary">📊 Degree Distributions</a>
         <a href="data/week1_graph.json" download class="btn btn-outline">📥 Download Graph JSON</a>
       </div>
 
@@ -79,8 +81,8 @@
           <div class="stat-label">Isolated Superheroes</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">5.89</div>
-          <div class="stat-label">Average In/Out Degree</div>
+          <div class="stat-value">35%</div>
+          <div class="stat-label">Of the roster links to Spider-Man</div>
         </div>
       </div>
     </div>
@@ -88,6 +90,34 @@
 
   <!-- Main Content -->
   <main class="container page-content">
+
+    <!-- The question -->
+    <section id="the-question" class="section-block">
+      <div class="section-heading">
+        <h2>What we asked</h2>
+        <p>
+          Wikipedia's Marvel roster links to itself 1,784 times. So: <strong>who does the universe
+          point at, who does the pointing, and is anybody sitting outside it altogether?</strong>
+        </p>
+      </div>
+
+      <div class="callout-post">
+        <p>
+          <strong>What we did.</strong> Loaded the frozen week-1 snapshot as a directed graph — all
+          303 characters added before any edge, so the isolated ones survive — then looked at the
+          in- and out-degree distributions on linear and log–log axes, compared the two
+          leaderboards, and pulled apart the connected components. As a check on the data itself we
+          re-derived one corner of the edge list from the live Wikipedia API.
+        </p>
+        <p>
+          <strong>The short answer.</strong> The universe points at Spider-Man, and it is not close:
+          35% of the other characters link to his article. But he is not the one doing the pointing
+          — that is Betsy Braddock, who links out to 28 characters and is linked to by 7. Being
+          famous and being talkative turn out to be almost unrelated properties, and one 9-character
+          corner of the roster is not connected to the rest of it at all.
+        </p>
+      </div>
+    </section>
 
     <!-- Section 1: Python Data Loading -->
     <section id="data-loading" class="section-block">
@@ -133,12 +163,146 @@
       </div>
     </section>
 
-    <!-- Section 2: Interactive Network Visualization -->
+    <!-- Section 2: Degree distributions -->
+    <section id="degree-distributions" class="section-block">
+      <div class="section-heading">
+        <h2>2. Degree Distributions</h2>
+        <p>
+          The fraction of characters P(k) with each degree k. Plotted against <strong>k + 1</strong>,
+          because a log axis cannot show zero and this network is full of zeros — 58 characters are
+          never linked to, 20 never link out, and 17 do neither.
+        </p>
+      </div>
+
+      <div id="degree-chart-wrapper" class="chart-card">
+        <div class="graph-toolbar" style="border-radius: var(--radius-md) var(--radius-md) 0 0">
+          <div class="toolbar-group">
+            <span class="toolbar-label">Degree:</span>
+            <span id="deg-mode-seg" class="seg-group">
+              <button class="btn-tool" data-v="in">In</button>
+              <button class="btn-tool" data-v="out">Out</button>
+              <button class="btn-tool" data-v="both">Both</button>
+            </span>
+          </div>
+          <div class="toolbar-group">
+            <span class="toolbar-label">Axes:</span>
+            <span id="deg-axes-seg" class="seg-group">
+              <button class="btn-tool" data-v="linear">Linear</button>
+              <button class="btn-tool" data-v="log">Log–log</button>
+            </span>
+          </div>
+        </div>
+        <div class="chart-body">
+          <div id="degree-chart-legend" class="chart-legend-row"></div>
+          <svg id="degree-chart"></svg>
+          <p id="degree-chart-note" class="chart-note"></p>
+        </div>
+      </div>
+
+      <div class="callout-note">
+        The in-degree distribution is the heavy-tailed one: most characters are linked to a handful
+        of times and a few are linked to by a third of the roster. Out-degree is far more even —
+        nobody links out to more than 28 characters, because an article can only be so long. The two
+        distributions have the <em>same mean</em> (5.89) and they must: every edge is one character's
+        out-link and another's in-link, so the averages are forced to agree. Only the shapes differ.
+      </div>
+    </section>
+
+    <!-- Section 3: In versus out -->
+    <section id="in-vs-out" class="section-block">
+      <div class="section-heading">
+        <h2>3. In versus Out — Two Different Sets of People</h2>
+        <p>
+          Who is linked to most, and who links out most? Ranking the same 303 characters by the two
+          directions gives two largely different lists.
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th rowspan="2">#</th>
+              <th colspan="3" style="text-align:center">Linked to most (by in-degree)</th>
+              <th colspan="3" style="text-align:center">Links out most (by out-degree)</th>
+            </tr>
+            <tr>
+              <th>Character</th><th>In</th><th>Out</th>
+              <th>Character</th><th>In</th><th>Out</th>
+            </tr>
+          </thead>
+          <tbody id="inout-tbody"><!-- populated from week1_graph.json --></tbody>
+        </table>
+      </div>
+
+      <div class="callout-note" id="inout-readout"></div>
+
+      <div class="callout-post">
+        <p>
+          <strong>Why are they different people?</strong> The two directions measure different
+          things. In-degree is a verdict passed by everyone else: it counts how often the rest of
+          the roster found this character worth naming, so it tracks fame inside the fictional
+          universe. Out-degree is a property of one article's prose: it counts how many other
+          roster members <em>this</em> page happens to mention, which depends on how long the
+          article is and whether some editor wrote a sprawling "other versions" or "relationships"
+          section. Betsy Braddock tops the out list because her body-swap history is a tangle that
+          name-checks half the X-Men, not because she is the most important character in Marvel.
+        </p>
+        <p>
+          The two are correlated across the whole roster — Spearman's rank correlation is
+          <strong>0.70</strong>, so on average the well-connected are well-connected both ways — but
+          the correlation breaks down exactly at the top, where the hubs live. That is the useful
+          lesson: an aggregate correlation can be strong and still tell you nothing about the
+          extremes you actually care about.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 4: The islands -->
+    <section id="islands" class="section-block">
+      <div class="section-heading">
+        <h2>4. The Islands Outside the Giant Component</h2>
+        <p>
+          Treating link direction as optional, the network breaks into weakly connected components.
+          One of them holds nearly everybody; the rest are the interesting part.
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value" id="isl-giant">–</div>
+          <div class="stat-label">In the giant component</div></div>
+        <div class="stat-card"><div class="stat-value" id="isl-count">–</div>
+          <div class="stat-label">Components in total</div></div>
+        <div class="stat-card"><div class="stat-value" id="isl-islands">–</div>
+          <div class="stat-label">Multi-character islands</div></div>
+        <div class="stat-card"><div class="stat-value" id="isl-singletons">–</div>
+          <div class="stat-label">Lone isolated characters</div></div>
+      </div>
+
+      <div id="island-list" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:18px"></div>
+
+      <div class="callout-note">
+        The one real island is <strong>Strikeforce: Morituri</strong> — characters from a 1986
+        limited series that shares no cast with the rest of Marvel. Nine characters, 22 links among
+        themselves, and not one link to or from the other 294. They are not badly connected; they
+        are a separate universe that happens to sit in the same Wikipedia category. Everyone else
+        outside the giant component is alone: no links in either direction at all.
+      </div>
+    </section>
+
+    <!-- Section 5: Interactive Network Visualization -->
     <section id="network-visualization" class="section-block">
       <div class="section-heading">
-        <h2>2. Interactive Network Visualization</h2>
+        <h2>5. Interactive Network Visualization</h2>
         <p>
           Drag nodes to explore physical clusters, zoom and pan freely, search for any superhero, inspect in-degree vs. out-degree hyperlinks, and click connected neighbors to traverse the Marvel social graph.
+        </p>
+        <p style="font-size:.88rem;color:var(--text-muted);margin-top:10px">
+          <strong>On the community colours:</strong> the partition comes from the Louvain algorithm,
+          which returns unlabelled sets of nodes — the faction <em>names</em> are our own reading of
+          who ended up in each set, anchored to one recognisable character per cluster. Treat them as
+          a caption, not a result. Community detection is properly a week-4 topic; we are using it
+          early because it makes the drawing legible.
         </p>
       </div>
 
@@ -213,8 +377,8 @@
               <div class="legend-item"><span class="legend-color-dot" style="background:#8B5CF6;"></span> Cosmic Marvel & Guardians</div>
               <div class="legend-item"><span class="legend-color-dot" style="background:#3B82F6;"></span> Street Level & Urban Knights</div>
               <div class="legend-item"><span class="legend-color-dot" style="background:#10B981;"></span> Gamma & Heavyweight Avengers</div>
-              <div class="legend-item"><span class="legend-color-dot" style="background:#F59E0B;"></span> Midnight Sons & Supernatural</div>
-              <div class="legend-item"><span class="legend-color-dot" style="background:#06B6D4;"></span> Classic Avengers & Golden Age</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#F59E0B;"></span> Doctor Strange & the Supernatural</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#06B6D4;"></span> Fantastic Four, Inhumans & Golden Age</div>
               <div class="legend-item"><span class="legend-color-dot" style="background:#94A3B8;"></span> Isolates / Minor Clusters</div>
             </div>
           </div>
@@ -254,11 +418,11 @@
                   <div class="char-metric-lbl">In-Degree (Incoming)</div>
                 </div>
                 <div class="char-metric-card">
-                  <div id="insp-out-degree" class="char-metric-val">15</div>
+                  <div id="insp-out-degree" class="char-metric-val">9</div>
                   <div class="char-metric-lbl">Out-Degree (Outgoing)</div>
                 </div>
                 <div class="char-metric-card">
-                  <div id="insp-total-degree" class="char-metric-val">121</div>
+                  <div id="insp-total-degree" class="char-metric-val">115</div>
                   <div class="char-metric-lbl">Total Degree</div>
                 </div>
                 <div class="char-metric-card">
@@ -294,7 +458,7 @@
     <!-- Section 3: Top Superheroes Table -->
     <section id="top-superheroes" class="section-block">
       <div class="section-heading">
-        <h2>3. Most Central Superheroes in the Network</h2>
+        <h2>6. Most Central Superheroes in the Network</h2>
         <p>
           Ranked by in-degree centrality (number of other Marvel character Wikipedia articles that link to them). Click any character name to focus on them in the interactive graph!
         </p>
@@ -320,10 +484,71 @@
       </div>
     </section>
 
-    <!-- Section 4: Downloads & Resources -->
+    <!-- Section 7: Checking the snapshot -->
+    <section id="snapshot-check" class="section-block">
+      <div class="section-heading">
+        <h2>7. Checking the Snapshot Against Live Wikipedia</h2>
+        <p>
+          The snapshot is handed to us ready-made, so we re-derived a corner of it ourselves. The
+          edges were harvested from the wiki-source, where internal links appear as
+          <code>[[Page name]]</code> — so the same thing can be redone through the API and compared.
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Character</th><th>Out-edges in snapshot</th><th>Re-derived from API</th><th>Agreeing</th></tr></thead>
+          <tbody>
+            <tr><td>Spider-Man</td><td>9</td><td>9</td><td>9</td></tr>
+            <tr><td>Betsy Braddock</td><td>28</td><td>28</td><td>28</td></tr>
+            <tr><td>Hulk</td><td>10</td><td>9</td><td>9</td></tr>
+            <tr><td>Adam Warlock</td><td>22</td><td>21</td><td>21</td></tr>
+            <tr><td>She-Hulk</td><td>20</td><td>20</td><td>20</td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>89</strong></td><td><strong>87</strong></td><td><strong>87</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout-note">
+        <strong>87 of 89 out-edges reproduced — 98%.</strong> Every edge our re-derivation found is
+        in the snapshot; the snapshot has two that the current wiki-source does not
+        (Hulk → Gargoyle, Adam Warlock → Quasar). We checked whether those were redirect artefacts
+        and they are not, so the most likely explanation is that the two articles were edited after
+        the 2026-08-26 freeze — but we have not confirmed that, and we would rather say so than
+        invent a reason. The script is in the repo as
+        <code>scripts/check_snapshot_api.py</code> if you want to re-run it.
+      </div>
+    </section>
+
+    <!-- What surprised us -->
+    <section class="section-block">
+      <div class="section-heading">
+        <h2>What surprised us</h2>
+      </div>
+      <div class="callout-post">
+        <p>
+          <strong>1. The 17 isolates get all the attention, but 58 characters are never linked to.</strong>
+          The dataset notes warn you about the 17 with no links in either direction. Nearly one in five
+          characters has in-degree zero — they link out to others and nobody links back. Those are
+          invisible to any centrality measure but still perfectly happy members of the graph.
+        </p>
+        <p>
+          <strong>2. Fame and talkativeness are nearly unrelated at the top.</strong> We expected the
+          two leaderboards to broadly agree. Only 3 of 10 names overlap, and the biggest hub in the
+          network links out less than the median character.
+        </p>
+        <p>
+          <strong>3. The island is a whole separate franchise.</strong> We went looking for badly
+          connected stragglers and instead found a coherent 9-character cast from a 1986 series,
+          densely linked to each other and hermetically sealed off from Marvel proper.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 8: Downloads & Resources -->
     <section id="downloads" class="section-block">
       <div class="section-heading">
-        <h2>4. Data Downloads & Artifacts</h2>
+        <h2>8. Data Downloads & Artifacts</h2>
         <p>Access the raw TSV snapshot files and the processed JSON network dataset.</p>
       </div>
 
@@ -360,7 +585,7 @@
   <footer class="site-footer">
     <div class="container footer-content">
       <div class="footer-text">
-        DTU Course 02805 • Social Data Analysis and Visualization • Project by <strong>Noah Ruy (s244207)</strong> &amp; <strong>Oliver (s194591)</strong>
+        DTU Course 02805 • Social Graphs and Interactions • Project by <strong>Noah Ruy (s244207)</strong> &amp; <strong>Oliver (s194591)</strong>
       </div>
       <div class="footer-links">
         <a href="index.html">Home</a>
@@ -373,5 +598,6 @@
   <!-- Scripts -->
   <script src="js/main.js"></script>
   <script src="js/week1.js"></script>
+  <script src="js/week1-analysis.js"></script>
 </body>
 </html>
