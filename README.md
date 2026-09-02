@@ -64,10 +64,8 @@ The repo uses [uv](https://docs.astral.sh/uv/). The frozen snapshot is tracked i
 ```bash
 uv sync
 
-# graph summary and the top five most-referenced characters
-uv run python main.py
-
 # rebuild docs/data/week1_graph.json (degrees, PageRank, Louvain, components)
+# also prints the node/edge counts as a sanity check
 uv run python scripts/prepare_week1.py
 
 # stretch: re-derive part of the edge list from the live Wikipedia API and compare
@@ -129,7 +127,6 @@ Then open <http://localhost:8000/week1.html>.
 │   └── check_snapshot_api.py     # re-derives edges from the Wikipedia API
 ├── .github/workflows/
 │   └── deploy-pages.yml          # Pages deployment
-├── main.py                       # quick graph summary
 ├── pyproject.toml
 └── README.md
 ```
