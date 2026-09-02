@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 1: Marvel Superhero Social Graph | DTU 02805</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- D3.js v7 -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body class="theme-light">
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-icon">🕸️</span>
+        <span class="brand-text">Social<strong>Graphs</strong></span>
+      </a>
+      
+      <nav class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <div class="nav-dropdown">
+          <a href="javascript:void(0)" class="nav-link active">
+            <span>Weeks</span>
+            <span style="font-size: 0.75rem;">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="week1.html" class="nav-dropdown-item active">
+              <span>Week 1: Marvel Graph</span>
+              <span class="badge-pill ready">Active</span>
+            </a>
+            <div class="nav-dropdown-item" style="opacity: 0.6; cursor: default;">
+              <span>Week 2: Advanced Graph</span>
+              <span class="badge-pill soon">Soon</span>
+            </div>
+            <div class="nav-dropdown-item" style="opacity: 0.6; cursor: default;">
+              <span>Week 3: Text & NLP</span>
+              <span class="badge-pill soon">Soon</span>
+            </div>
+            <div class="nav-dropdown-item" style="opacity: 0.6; cursor: default;">
+              <span>Week 4: Community Structure</span>
+              <span class="badge-pill soon">Soon</span>
+            </div>
+          </div>
+        </div>
+        <a href="#data-loading" class="nav-link">Data Loading</a>
+        <a href="#network-visualization" class="nav-link">Interactive Graph</a>
+        <a href="#top-superheroes" class="nav-link">Top Characters</a>
+        <a href="#downloads" class="nav-link">Downloads</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme" title="Toggle dark/light mode">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-secondary btn-sm">
+          <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <button id="mobile-menu-btn" class="btn-icon mobile-only" aria-label="Open menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-content">
+      <span class="tag-badge">DTU Course 02805 • Week 1 Assignment</span>
+      <h1 class="hero-title">
+        Marvel Comics <span class="gradient-text">Superhero Social Graph</span>
+      </h1>
+      <p class="hero-subtitle">
+        An interactive topological investigation into the interconnected Marvel Universe. Formed by all 303 character articles in Wikipedia's <em>Category:Marvel Comics superheroes</em> linked by 1,784 directed Wikipedia article hyperlinks.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#network-visualization" class="btn btn-primary">🕸️ Explore Interactive Graph</a>
+        <a href="#data-loading" class="btn btn-secondary">🐍 Python & NetworkX Code</a>
+        <a href="data/week1_graph.json" download class="btn btn-outline">📥 Download Graph JSON</a>
+      </div>
+
+      <!-- Quick Metrics Counter -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">303</div>
+          <div class="stat-label">Characters (Nodes)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1,784</div>
+          <div class="stat-label">Directed Links (Edges)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">17</div>
+          <div class="stat-label">Isolated Superheroes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5.89</div>
+          <div class="stat-label">Average In/Out Degree</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container page-content">
+
+    <!-- Section 1: Python Data Loading -->
+    <section id="data-loading" class="section-block">
+      <div class="section-heading">
+        <h2>1. Data Loading & Graph Construction in Python</h2>
+        <p>
+          The graph is constructed using <strong>NetworkX</strong> (<code>DiGraph</code>) and <strong>Pandas</strong> from the frozen snapshot TSV datasets (<code>week1_nodes.tsv</code> and <code>week1_edges.tsv</code>).
+        </p>
+      </div>
+
+      <div class="code-container">
+        <div class="code-header">
+          <div class="code-title">
+            <div class="code-dots">
+              <span class="code-dot red"></span>
+              <span class="code-dot yellow"></span>
+              <span class="code-dot green"></span>
+            </div>
+            <span>load_week1_graph.py</span>
+          </div>
+          <button class="btn-copy" data-target="python-code-snippet">Copy Code</button>
+        </div>
+        <pre class="code-block"><code id="python-code-snippet"><span class="hl-keyword">import</span> <span class="hl-var">pandas</span> <span class="hl-keyword">as</span> <span class="hl-var">pd</span>, <span class="hl-var">networkx</span> <span class="hl-keyword">as</span> <span class="hl-var">nx</span>
+
+<span class="hl-var">nodes</span> = <span class="hl-var">pd</span>.<span class="hl-func">read_csv</span>(<span class="hl-string">"week1_nodes.tsv"</span>, <span class="hl-var">sep</span>=<span class="hl-string">"\t"</span>, <span class="hl-var">comment</span>=<span class="hl-string">"#"</span>,
+                    <span class="hl-var">quoting</span>=<span class="hl-keyword">3</span>)  <span class="hl-comment"># QUOTE_NONE: TSVs never quote, but blurbs may contain "quotes"</span>
+<span class="hl-var">edges</span> = <span class="hl-var">pd</span>.<span class="hl-func">read_csv</span>(<span class="hl-string">"week1_edges.tsv"</span>, <span class="hl-var">sep</span>=<span class="hl-string">"\t"</span>, <span class="hl-var">comment</span>=<span class="hl-string">"#"</span>,
+                    <span class="hl-var">names</span>=[<span class="hl-string">"source"</span>, <span class="hl-string">"target"</span>])
+
+<span class="hl-var">G</span> = <span class="hl-var">nx</span>.<span class="hl-func">DiGraph</span>()
+<span class="hl-var">G</span>.<span class="hl-func">add_nodes_from</span>(<span class="hl-var">nodes</span>.<span class="hl-var">node_id</span>)
+<span class="hl-var">G</span>.<span class="hl-func">add_edges_from</span>(<span class="hl-var">edges</span>.<span class="hl-func">itertuples</span>(<span class="hl-var">index</span>=<span class="hl-keyword">False</span>))
+<span class="hl-comment"># G: 303 nodes, 1784 edges</span></code></pre>
+      </div>
+
+      <div style="background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px 20px; font-size: 0.92rem; color: var(--text-secondary);">
+        💡 <strong>Key Implementation Details:</strong>
+        <ul style="margin: 8px 0 0 20px; line-height: 1.7;">
+          <li><code>quoting=3</code> corresponds to <code>csv.QUOTE_NONE</code>, preventing unescaped double quotes inside character descriptions from breaking parsing.</li>
+          <li><code>comment="#"</code> strips header annotation lines from the dataset.</li>
+          <li>17 characters have zero incoming and outgoing links in this snapshot (isolated nodes), but are retained in the full node set via <code>G.add_nodes_from(nodes.node_id)</code>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 2: Interactive Network Visualization -->
+    <section id="network-visualization" class="section-block">
+      <div class="section-heading">
+        <h2>2. Interactive Network Visualization</h2>
+        <p>
+          Drag nodes to explore physical clusters, zoom and pan freely, search for any superhero, inspect in-degree vs. out-degree hyperlinks, and click connected neighbors to traverse the Marvel social graph.
+        </p>
+      </div>
+
+      <!-- Graph Stage -->
+      <div class="graph-stage-wrapper">
+        
+        <!-- Controls Toolbar -->
+        <div class="graph-toolbar">
+          <div class="toolbar-group">
+            <!-- Search Superhero -->
+            <div class="search-box-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="search-superhero" class="search-input" placeholder="Search superhero (e.g. Spider-Man)..." autocomplete="off" />
+              <div id="search-dropdown" class="search-dropdown"></div>
+            </div>
+
+            <!-- Community Filter -->
+            <select id="filter-community" class="select-control">
+              <option value="all">All Communities (303 nodes)</option>
+            </select>
+          </div>
+
+          <div class="toolbar-group">
+            <!-- Color Mode -->
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span class="toolbar-label">Color:</span>
+              <select id="select-color-mode" class="select-control">
+                <option value="community">Community / Faction</option>
+                <option value="in_degree">In-Degree (Popularity)</option>
+                <option value="out_degree">Out-Degree (Connectivity)</option>
+                <option value="pagerank">PageRank</option>
+              </select>
+            </div>
+
+            <!-- Size Mode -->
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span class="toolbar-label">Size:</span>
+              <select id="select-size-mode" class="select-control">
+                <option value="in_degree">In-Degree</option>
+                <option value="out_degree">Out-Degree</option>
+                <option value="total_degree">Total Degree</option>
+                <option value="pagerank">PageRank</option>
+                <option value="uniform">Uniform</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="toolbar-group">
+            <button id="btn-toggle-isolates" class="btn-tool">Hide 17 Isolates</button>
+            <button id="btn-toggle-labels" class="btn-tool">🏷️ Labels: Hubs</button>
+            <button id="btn-toggle-physics" class="btn-tool active">⏸ Pause Physics</button>
+            <button id="btn-reset-zoom" class="btn-tool">🔄 Center</button>
+          </div>
+        </div>
+
+        <!-- Graph Viewport Canvas -->
+        <div id="graph-container" class="graph-viewport">
+          <svg id="graph-svg"></svg>
+
+          <!-- Floating Zoom Controls -->
+          <div class="graph-floating-controls">
+            <button id="btn-zoom-in" class="btn-float" title="Zoom In">+</button>
+            <button id="btn-zoom-out" class="btn-float" title="Zoom Out">−</button>
+          </div>
+
+          <!-- Legend Overlay -->
+          <div class="graph-legend-overlay">
+            <div class="legend-title">Communities / Factions</div>
+            <div class="legend-items">
+              <div class="legend-item"><span class="legend-color-dot" style="background:#EF4444;"></span> Spider-Verse & Web Warriors</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#EC4899;"></span> X-Men & Mutant Factions</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#8B5CF6;"></span> Cosmic Marvel & Guardians</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#3B82F6;"></span> Street Level & Urban Knights</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#10B981;"></span> Gamma & Heavyweight Avengers</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#F59E0B;"></span> Midnight Sons & Supernatural</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#06B6D4;"></span> Classic Avengers & Golden Age</div>
+              <div class="legend-item"><span class="legend-color-dot" style="background:#94A3B8;"></span> Isolates / Minor Clusters</div>
+            </div>
+          </div>
+
+          <!-- Hover Tooltip -->
+          <div id="graph-tooltip" class="graph-tooltip"></div>
+
+          <!-- Node Inspector Drawer -->
+          <div id="node-inspector" class="node-inspector-drawer">
+            <div class="inspector-header">
+              <span class="inspector-header-title">Character Inspector</span>
+              <button id="inspector-close" class="btn-close" aria-label="Close Inspector">✕</button>
+            </div>
+            <div class="inspector-body">
+              <div class="char-hero">
+                <h3 id="insp-name" class="char-name">Spider-Man</h3>
+                <div id="insp-id" class="char-id">Spider-Man</div>
+                <div style="margin-top: 6px;">
+                  <span id="insp-community-badge" class="badge-pill">Spider-Verse</span>
+                </div>
+              </div>
+
+              <p id="insp-desc" class="char-description">
+                Spider-Man is a superhero created by Stan Lee and Steve Ditko...
+              </p>
+
+              <div>
+                <a id="insp-wiki-link" href="#" target="_blank" class="btn btn-outline btn-sm" style="width: 100%;">
+                  Read Wikipedia Article ↗
+                </a>
+              </div>
+
+              <!-- Metrics -->
+              <div class="char-metrics-grid">
+                <div class="char-metric-card">
+                  <div id="insp-in-degree" class="char-metric-val">106</div>
+                  <div class="char-metric-lbl">In-Degree (Incoming)</div>
+                </div>
+                <div class="char-metric-card">
+                  <div id="insp-out-degree" class="char-metric-val">15</div>
+                  <div class="char-metric-lbl">Out-Degree (Outgoing)</div>
+                </div>
+                <div class="char-metric-card">
+                  <div id="insp-total-degree" class="char-metric-val">121</div>
+                  <div class="char-metric-lbl">Total Degree</div>
+                </div>
+                <div class="char-metric-card">
+                  <div id="insp-pagerank" class="char-metric-val">0.0501</div>
+                  <div class="char-metric-lbl">PageRank</div>
+                </div>
+              </div>
+
+              <!-- Incoming Links -->
+              <div>
+                <div class="neighbor-section-title">
+                  <span>Incoming Links (Referenced By)</span>
+                  <span style="color: #06b6d4; font-size: 0.75rem;">Cyan Arrows</span>
+                </div>
+                <div id="insp-in-neighbors" class="neighbor-chips"></div>
+              </div>
+
+              <!-- Outgoing Links -->
+              <div>
+                <div class="neighbor-section-title">
+                  <span>Outgoing Links (Links To)</span>
+                  <span style="color: #f59e0b; font-size: 0.75rem;">Orange Arrows</span>
+                </div>
+                <div id="insp-out-neighbors" class="neighbor-chips"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Top Superheroes Table -->
+    <section id="top-superheroes" class="section-block">
+      <div class="section-heading">
+        <h2>3. Most Central Superheroes in the Network</h2>
+        <p>
+          Ranked by in-degree centrality (number of other Marvel character Wikipedia articles that link to them). Click any character name to focus on them in the interactive graph!
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Superhero Name</th>
+              <th>Detected Community</th>
+              <th>In-Degree (Referenced)</th>
+              <th>Out-Degree (Citations)</th>
+              <th>PageRank</th>
+              <th>Wikipedia</th>
+            </tr>
+          </thead>
+          <tbody id="top-superheroes-tbody">
+            <!-- Populated via week1.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: Downloads & Resources -->
+    <section id="downloads" class="section-block">
+      <div class="section-heading">
+        <h2>4. Data Downloads & Artifacts</h2>
+        <p>Access the raw TSV snapshot files and the processed JSON network dataset.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+        <div class="stat-card" style="text-align: left;">
+          <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">week1_nodes.tsv</div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">
+            303 superhero nodes with character names, Wikidata IDs, Wikipedia URLs, and introductory blurbs.
+          </p>
+          <a href="data/week1_nodes.tsv" download class="btn btn-secondary btn-sm">📥 Download nodes.tsv</a>
+        </div>
+
+        <div class="stat-card" style="text-align: left;">
+          <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">week1_edges.tsv</div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">
+            1,784 directed Wikipedia article hyperlinks between superhero character pages.
+          </p>
+          <a href="data/week1_edges.tsv" download class="btn btn-secondary btn-sm">📥 Download edges.tsv</a>
+        </div>
+
+        <div class="stat-card" style="text-align: left;">
+          <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">week1_graph.json</div>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">
+            Full graph with computed network metrics (PageRank, Louvain communities, degree counts, neighbors).
+          </p>
+          <a href="data/week1_graph.json" download class="btn btn-primary btn-sm">📥 Download graph.json</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-text">
+        DTU Course 02805 • Social Data Analysis and Visualization • Fall/Spring Project
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Course Hub</a>
+        <a href="week1.html">Week 1</a>
+        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank">GitHub Repository</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/week1.js"></script>
+</body>
+</html>
