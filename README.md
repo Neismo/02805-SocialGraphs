@@ -2,6 +2,10 @@
 
 A data science and network analysis project exploring complex interaction topologies, community structures, and text dynamics for DTU Course 02805 (Social Data Analysis and Visualization).
 
+**Authors:**
+- **Noah Ruy** (`s244207`)
+- **Oliver** (`s194591`)
+
 ---
 
 ## 🌐 Live Explainer Website (GitHub Pages)
@@ -12,7 +16,7 @@ When deployed to GitHub Pages, the site is live at:
 👉 **`https://neismo.github.io/02805-SocialGraphs/`**
 
 ### Structure & Modules:
-- 🏠 **Course Hub (`index.html`)**: Overview of weekly modules and network science methodology.
+- 🏠 **Project Hub (`index.html`)**: Project introduction, architectural pillars, and weekly exploration links.
 - 🦸 **Week 1 Subpage (`week1.html`)**:
   - **Dataset**: 303 Marvel Comics superheroes and 1,784 directed Wikipedia article hyperlinks.
   - **Data Loading**: Python / NetworkX `DiGraph` construction from `week1_nodes.tsv` and `week1_edges.tsv`.

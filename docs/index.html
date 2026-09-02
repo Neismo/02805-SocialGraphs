@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>02805 Social Graphs & Interactions | Course Hub</title>
+  <title>02805 Social Graphs & Interactions | Project Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -21,33 +21,7 @@
       
       <nav class="nav-links" id="nav-links">
         <a href="index.html" class="nav-link active">Home</a>
-        <div class="nav-dropdown">
-          <a href="javascript:void(0)" class="nav-link">
-            <span>Weeks</span>
-            <span style="font-size: 0.75rem;">▾</span>
-          </a>
-          <div class="nav-dropdown-menu">
-            <a href="week1.html" class="nav-dropdown-item active">
-              <span>Week 1: Marvel Graph</span>
-              <span class="badge-pill ready">Active</span>
-            </a>
-            <div class="nav-dropdown-item" style="opacity: 0.6; cursor: default;">
-              <span>Week 2: Advanced Graph</span>
-              <span class="badge-pill soon">Soon</span>
-            </div>
-            <div class="nav-dropdown-item" style="opacity: 0.6; cursor: default;">
-              <span>Week 3: Text & NLP</span>
-              <span class="badge-pill soon">Soon</span>
-            </div>
-            <div class="nav-dropdown-item" style="opacity: 0.6; cursor: default;">
-              <span>Week 4: Community Structure</span>
-              <span class="badge-pill soon">Soon</span>
-            </div>
-          </div>
-        </div>
-        <a href="#weekly-modules" class="nav-link">Weekly Modules</a>
-        <a href="#methodology" class="nav-link">Methodology</a>
-        <a href="week1.html" class="nav-link">Week 1 Playground</a>
+        <a href="week1.html" class="nav-link">Week 1: Marvel Graph</a>
       </nav>
 
       <div class="nav-actions">
@@ -72,36 +46,33 @@
     <div class="container hero-content">
       <span class="tag-badge">DTU Course 02805 • Social Data Analysis and Visualization</span>
       <h1 class="hero-title">
-        Explaining Complex Networks &amp; <span class="gradient-text">Social Interactions</span>
+        Social Graphs &amp; <span class="gradient-text">Complex Networks</span>
       </h1>
       <p class="hero-subtitle">
-        An interactive exploration platform combining Python network science algorithms, NetworkX graph modeling, and D3.js visual analytics.
+        An interactive computational laboratory and project portfolio exploring network topologies, community structures, and social interaction dynamics.
       </p>
+
+      <!-- Authors Section -->
+      <div class="authors-container">
+        <div class="author-card">
+          <div class="author-avatar">NR</div>
+          <div class="author-details">
+            <span class="author-name">Noah Ruy</span>
+            <span class="author-id">s244207</span>
+          </div>
+        </div>
+        <div class="author-card">
+          <div class="author-avatar">O</div>
+          <div class="author-details">
+            <span class="author-name">Oliver</span>
+            <span class="author-id">s194591</span>
+          </div>
+        </div>
+      </div>
 
       <div class="hero-actions">
         <a href="week1.html" class="btn btn-primary">🚀 Explore Week 1: Marvel Graph</a>
-        <a href="#weekly-modules" class="btn btn-secondary">Browse Weekly Modules</a>
-        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-outline">View Repository</a>
-      </div>
-
-      <!-- Quick Metrics Counter -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value">303</div>
-          <div class="stat-label">Week 1 Characters</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">1,784</div>
-          <div class="stat-label">Wikipedia Hyperlinks</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">8</div>
-          <div class="stat-label">Detected Factions</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">100%</div>
-          <div class="stat-label">Interactive Visuals</div>
-        </div>
+        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank" class="btn btn-outline">View GitHub Repository</a>
       </div>
     </div>
   </section>
@@ -109,154 +80,99 @@
   <!-- Main Content -->
   <main class="container page-content">
 
-    <!-- Weekly Modules Portal -->
-    <section id="weekly-modules" class="section-block">
+    <!-- Project Introduction Section -->
+    <section class="section-block">
       <div class="section-heading">
-        <h2>Weekly Modules &amp; Explorations</h2>
+        <h2>Project Introduction &amp; Evolution</h2>
         <p>
-          Navigate through weekly assignments and interactive network visualizations. New weeks are added as the course progresses.
+          Welcome to our course project hub for <strong>02805 Social Data Analysis and Visualization</strong> at the Technical University of Denmark (DTU).
         </p>
       </div>
 
-      <div class="weekly-cards-grid">
-        
-        <!-- Week 1 (Active) -->
-        <div class="week-card active-card">
-          <div>
-            <div class="week-card-header">
-              <span class="week-number">Week 01</span>
-              <span class="badge-pill ready">Available Now</span>
-            </div>
-            <h3 class="week-card-title">Marvel Superhero Network</h3>
-            <p class="week-card-desc">
-              Directed graph modeling of 303 Marvel superheroes extracted from Wikipedia category pages. Explore in-degrees, out-degrees, PageRank centrality, and interactive Louvain community clusters.
-            </p>
-          </div>
+      <div style="background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-xs); line-height: 1.7; color: var(--text-secondary); margin-bottom: 24px;">
+        <p style="margin-bottom: 14px;">
+          This web application serves as our evolving computational notebook and interactive visualization hub. Over the course of the semester, we investigate the mathematical properties of complex real-world networks, uncover community factions, perform natural language processing on graph-associated texts, and build accessible, responsive visual analytics interfaces.
+        </p>
+        <p>
+          As we progress through each weekly assignment and expand our analytical models, new modules and interactive investigations will be integrated directly into this portal.
+        </p>
+      </div>
 
-          <div>
-            <div class="week-card-stats">
-              <div class="week-stat-item">
-                <span class="week-stat-val">303</span>
-                <span class="week-stat-lbl">Nodes</span>
-              </div>
-              <div class="week-stat-item">
-                <span class="week-stat-val">1,784</span>
-                <span class="week-stat-lbl">Edges</span>
-              </div>
-              <div class="week-stat-item">
-                <span class="week-stat-val">DiGraph</span>
-                <span class="week-stat-lbl">NetworkX</span>
-              </div>
-            </div>
-            <a href="week1.html" class="btn btn-primary" style="width: 100%;">
-              Open Week 1 Subpage &rarr;
-            </a>
-          </div>
+      <!-- Key Pillars -->
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <span class="pillar-icon">🕸️</span>
+          <h3 class="pillar-title">Network Topologies</h3>
+          <p class="pillar-desc">
+            Constructing directed and undirected graph structures in Python with NetworkX, analyzing in/out degree distributions, connectivity, and PageRank centralities.
+          </p>
         </div>
 
-        <!-- Week 2 (Upcoming) -->
-        <div class="week-card">
-          <div>
-            <div class="week-card-header">
-              <span class="week-number">Week 02</span>
-              <span class="badge-pill soon">Upcoming</span>
-            </div>
-            <h3 class="week-card-title">Advanced Network Topologies</h3>
-            <p class="week-card-desc">
-              Degree distribution models, random graph generators (Erdős–Rényi, Barabási–Albert), and small-world properties in empirical datasets.
-            </p>
-          </div>
-
-          <div>
-            <div class="week-card-stats">
-              <div class="week-stat-item">
-                <span class="week-stat-val">TBA</span>
-                <span class="week-stat-lbl">Dataset</span>
-              </div>
-              <div class="week-stat-item">
-                <span class="week-stat-val">Scale-Free</span>
-                <span class="week-stat-lbl">Topic</span>
-              </div>
-              <div class="week-stat-item">
-                <span class="week-stat-val">Week 2</span>
-                <span class="week-stat-lbl">Release</span>
-              </div>
-            </div>
-            <button class="btn btn-secondary" style="width: 100%; opacity: 0.6; cursor: not-allowed;" disabled>
-              Coming Soon
-            </button>
-          </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">🔬</span>
+          <h3 class="pillar-title">Community Detection</h3>
+          <p class="pillar-desc">
+            Partitioning networks using modularity optimization (Louvain algorithm) to reveal organic clusters, thematic factions, and densely interconnected groups.
+          </p>
         </div>
 
-        <!-- Week 3 (Upcoming) -->
-        <div class="week-card">
-          <div>
-            <div class="week-card-header">
-              <span class="week-number">Week 03</span>
-              <span class="badge-pill soon">Upcoming</span>
-            </div>
-            <h3 class="week-card-title">NLP &amp; Text Dynamics</h3>
-            <p class="week-card-desc">
-              Natural Language Processing on node texts: TF-IDF term salience, sentiment analysis, and topic modeling combined with topological graphs.
-            </p>
-          </div>
-
-          <div>
-            <div class="week-card-stats">
-              <div class="week-stat-item">
-                <span class="week-stat-val">TF-IDF</span>
-                <span class="week-stat-lbl">NLP</span>
-              </div>
-              <div class="week-stat-item">
-                <span class="week-stat-val">Sentiment</span>
-                <span class="week-stat-lbl">Analysis</span>
-              </div>
-              <div class="week-stat-item">
-                <span class="week-stat-val">Week 3</span>
-                <span class="week-stat-lbl">Release</span>
-              </div>
-            </div>
-            <button class="btn btn-secondary" style="width: 100%; opacity: 0.6; cursor: not-allowed;" disabled>
-              Coming Soon
-            </button>
-          </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">📊</span>
+          <h3 class="pillar-title">Interactive Visualizations</h3>
+          <p class="pillar-desc">
+            Rendering browser-native D3.js force simulations with dynamic node inspection, auto-complete search, neighbor traversal, and custom filters.
+          </p>
         </div>
-
       </div>
     </section>
 
-    <!-- Methodology & Quickstart -->
-    <section id="methodology" class="section-block">
+    <!-- Active Weekly Module Section -->
+    <section class="section-block">
       <div class="section-heading">
-        <h2>Network Science Methodology &amp; Python Stack</h2>
-        <p>
-          Constructing and analyzing complex networks using the Python scientific computing stack and interactive web standards.
-        </p>
+        <h2>Current Exploration</h2>
+        <p>Explore our active weekly assignment module below.</p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
-        <div class="stat-card" style="text-align: left;">
-          <div style="font-size: 1.5rem; margin-bottom: 8px;">🐍</div>
-          <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">NetworkX &amp; Pandas</div>
-          <p style="font-size: 0.88rem; color: var(--text-secondary);">
-            Fast manipulation of complex graph structures, directed edge lists, degree calculations, PageRank, and Louvain modularity clustering.
-          </p>
+      <div class="module-spotlight-card">
+        <div class="module-spotlight-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="week-number">Week 01</span>
+            <span class="badge-pill ready">Active Module</span>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Marvel Superhero Network</span>
         </div>
 
-        <div class="stat-card" style="text-align: left;">
-          <div style="font-size: 1.5rem; margin-bottom: 8px;">📊</div>
-          <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">D3.js Visualization</div>
-          <p style="font-size: 0.88rem; color: var(--text-secondary);">
-            High performance physics simulations with smooth dragging, zooming, pan, community color maps, and rich node inspection.
-          </p>
+        <h3 class="module-spotlight-title">Marvel Comics Superhero Social Graph</h3>
+        <p class="module-spotlight-desc">
+          A directed network of <strong>303 Marvel superheroes</strong> extracted from Wikipedia category pages, linked by <strong>1,784 directed hyperlinks</strong>. Features a full Python data pipeline, interactive D3.js force simulation, community clustering, character inspector with neighborhood traversal, and in-depth PageRank ranking.
+        </p>
+
+        <div class="module-spotlight-stats">
+          <div class="week-stat-item">
+            <span class="week-stat-val">303</span>
+            <span class="week-stat-lbl">Superheroes (Nodes)</span>
+          </div>
+          <div class="week-stat-item">
+            <span class="week-stat-val">1,784</span>
+            <span class="week-stat-lbl">Direct Hyperlinks (Edges)</span>
+          </div>
+          <div class="week-stat-item">
+            <span class="week-stat-val">8</span>
+            <span class="week-stat-lbl">Detected Communities</span>
+          </div>
+          <div class="week-stat-item">
+            <span class="week-stat-val">D3.js + NX</span>
+            <span class="week-stat-lbl">Technology Stack</span>
+          </div>
         </div>
 
-        <div class="stat-card" style="text-align: left;">
-          <div style="font-size: 1.5rem; margin-bottom: 8px;">🚀</div>
-          <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 6px;">Automated GitHub Pages</div>
-          <p style="font-size: 0.88rem; color: var(--text-secondary);">
-            Continuous deployment via GitHub Actions on push to <code>main</code> or <code>master</code>, rendering responsive web pages seamlessly.
-          </p>
+        <div class="module-spotlight-actions">
+          <a href="week1.html" class="btn btn-primary">
+            Open Week 1 Interactive Graph &rarr;
+          </a>
+          <a href="https://github.com/Neismo/02805-SocialGraphs/tree/main/data" target="_blank" class="btn btn-secondary">
+            View Datasets
+          </a>
         </div>
       </div>
     </section>
@@ -267,12 +183,12 @@
   <footer class="site-footer">
     <div class="container footer-content">
       <div class="footer-text">
-        DTU Course 02805 • Social Data Analysis and Visualization
+        DTU Course 02805 • Social Data Analysis and Visualization • Project by <strong>Noah Ruy (s244207)</strong> &amp; <strong>Oliver (s194591)</strong>
       </div>
       <div class="footer-links">
         <a href="index.html">Home</a>
         <a href="week1.html">Week 1: Marvel Graph</a>
-        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank">GitHub Repository</a>
+        <a href="https://github.com/Neismo/02805-SocialGraphs" target="_blank">GitHub</a>
       </div>
     </div>
   </footer>
